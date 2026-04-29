@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ian O'Rourke — Product Manager | AI Strategist</title>
+    <meta name="description" content="Ian O'Rourke - Product Manager and AI Strategist with 10+ years driving digital transformation, API integrations, and AI-powered product development.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.2/babel.min.js"></script>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #050508;
+            --bg-secondary: #0a0a12;
+            --bg-card: #0f0f1a;
+            --bg-card-hover: #161625;
+            --accent: #39ff14;
+            --accent-dim: rgba(57,255,20,0.12);
+            --accent-glow: rgba(57,255,20,0.4);
+            --accent-bright: #5fff3a;
+            --text: #e0e0ee;
+            --text-secondary: #8888a0;
+            --text-muted: #505068;
+            --border: #1a1a2e;
+            --border-bright: #2a2a44;
+            --sans: 'Inter', -apple-system, sans-serif;
+            --mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-glow); }
+
+        #matrix-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        #root { position: relative; z-index: 1; }
+
+        /* ===== NAV ===== */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(5,5,8,0.8);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav__inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 56px; padding: 0 32px;
+        }
+        .nav__logo {
+            font-family: var(--mono); font-weight: 700; font-size: 15px;
+            color: var(--accent); text-decoration: none; letter-spacing: -0.5px;
+        }
+        .nav__logo span { color: var(--text-muted); }
+        .nav__links { display: flex; gap: 4px; list-style: none; }
+        .nav__links a {
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 13px; font-weight: 500;
+            padding: 6px 14px; border-radius: 6px; transition: all 0.2s;
+        }
+        .nav__links a:hover, .nav__links a.active {
+            color: var(--accent); background: var(--accent-dim);
+        }
+        .nav__mobile { display: none; background: none; border: 1px solid var(--border);
+            color: var(--text); padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 18px; }
+
+        /* ===== HERO ===== */
+        .hero { display: flex; flex-direction: column;
+            padding: 80px 32px 40px; max-width: 1200px; margin: 0 auto; position: relative; }
+        .hero__badge {
+            display: inline-flex; align-items: center; gap: 8px; width: fit-content;
+            background: var(--accent-dim); border: 1px solid rgba(57,255,20,0.2);
+            color: var(--accent); font-family: var(--mono); font-size: 12px;
+            padding: 6px 16px; border-radius: 20px; margin-bottom: 20px;
+        }
+        .hero__dot {
+            width: 6px; height: 6px; background: var(--accent); border-radius: 50%;
+            animation: pulse 2s ease infinite;
+        }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        .hero__layout {
+            display: grid; grid-template-columns: 1fr 320px; gap: 40px; align-items: start;
+        }
+        .hero__left { }
+
+        .hero__top { display: flex; align-items: flex-start; gap: 36px; margin-bottom: 28px; }
+        .hero__photo {
+            width: 150px; height: 150px; border-radius: 16px;
+            border: 2px solid rgba(57,255,20,0.3); object-fit: cover;
+            box-shadow: 0 0 30px rgba(57,255,20,0.1);
+            transition: all 0.4s;
+        }
+        .hero__photo:hover { border-color: var(--accent); box-shadow: 0 0 50px rgba(57,255,20,0.2); transform: scale(1.03); }
+
+        .hero__name {
+            font-size: 52px; font-weight: 800; letter-spacing: -2px; line-height: 1.05;
+            margin-bottom: 8px;
+        }
+        .hero__name .cursor {
+            display: inline-block; width: 3px; height: 48px; background: var(--accent);
+            margin-left: 4px; vertical-align: bottom;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+        .hero__title { font-size: 20px; color: var(--accent); font-weight: 500; margin-bottom: 20px; }
+
+        .hero__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+        .hero__tag {
+            background: var(--bg-card); border: 1px solid var(--border);
+            color: var(--text-secondary); font-size: 12px; font-weight: 500;
+            padding: 6px 14px; border-radius: 6px; transition: all 0.3s; cursor: default;
+        }
+        .hero__tag:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim);
+            box-shadow: 0 0 15px rgba(57,255,20,0.1); transform: translateY(-2px); }
+
+        .hero__summary { }
+        .hero__summary h3 { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+        .hero__summary p { font-size: 15px; color: var(--text-secondary); line-height: 1.75; }
+        .hero__achievements { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
+        .hero__achievement {
+            font-size: 14px; color: var(--text-secondary);
+            display: flex; align-items: flex-start; gap: 10px;
+        }
+        .hero__achievement::before { content: '▹'; color: var(--accent); flex-shrink: 0; font-size: 16px; }
+
+        .hero__scroll-hint { display: none; }
+        @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-8px)} }
+
+        /* ===== HERO SIDEBAR (contact panel) ===== */
+        .hero-sidebar {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 14px; padding: 24px; position: sticky; top: 80px;
+        }
+        .hero-sidebar__title {
+            font-size: 13px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1px; color: var(--text-muted); margin-bottom: 16px;
+        }
+        .hero-sidebar__items { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .hero-sidebar__item {
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; color: var(--text-secondary); font-size: 13px;
+            padding: 8px 12px; border-radius: 8px; transition: all 0.25s;
+            background: rgba(255,255,255,0.02); border: 1px solid transparent;
+        }
+        .hero-sidebar__item:hover { color: var(--accent); border-color: rgba(57,255,20,0.2); background: var(--accent-dim); }
+        .hero-sidebar__icon {
+            width: 30px; height: 30px; background: var(--accent-dim);
+            border-radius: 7px; display: flex; align-items: center; justify-content: center;
+            color: var(--accent); font-size: 13px; flex-shrink: 0;
+        }
+        .hero-sidebar__btns { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+        .hero-sidebar__stats {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;
+        }
+        .hero-sidebar__stat {
+            background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+            border-radius: 8px; padding: 12px; text-align: center; transition: all 0.3s;
+        }
+        .hero-sidebar__stat:hover { border-color: rgba(57,255,20,0.25); }
+        .hero-sidebar__stat-num {
+            font-size: 24px; font-weight: 800; color: var(--accent);
+            font-family: var(--mono); line-height: 1;
+        }
+        .hero-sidebar__stat-label { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+        .hero-sidebar__activities { font-size: 12px; color: var(--text-secondary); line-height: 1.9; }
+        .hero-sidebar__divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 80px 32px; max-width: 1200px; margin: 0 auto;
+            border-top: 1px solid var(--border);
+        }
+        .section__header { display: flex; align-items: center; gap: 16px; margin-bottom: 40px; }
+        .section__title { font-size: 28px; font-weight: 800; letter-spacing: -1px; }
+        .section__line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+        .section__count {
+            font-family: var(--mono); font-size: 12px; color: var(--accent);
+            background: var(--accent-dim); padding: 4px 12px; border-radius: 12px;
+        }
+
+        /* ===== TERMINAL GAME ===== */
+        .terminal-section { padding: 40px 32px; max-width: 1200px; margin: 0 auto; }
+        .terminal {
+            background: rgba(5,5,8,0.95); border: 1px solid var(--accent-dim);
+            border-radius: 12px; overflow: hidden;
+            box-shadow: 0 0 40px rgba(57,255,20,0.05), inset 0 0 60px rgba(0,0,0,0.5);
+            max-width: 800px; margin: 0 auto;
+        }
+        .terminal__bar {
+            display: flex; align-items: center; gap: 8px;
+            padding: 12px 16px; background: rgba(15,15,26,0.8);
+            border-bottom: 1px solid var(--border);
+        }
+        .terminal__dot { width: 10px; height: 10px; border-radius: 50%; }
+        .terminal__dot--red { background: #ff5f56; }
+        .terminal__dot--yellow { background: #ffbd2e; }
+        .terminal__dot--green { background: #27c93f; }
+        .terminal__title {
+            flex: 1; text-align: center; font-family: var(--mono);
+            font-size: 12px; color: var(--text-muted);
+        }
+        .terminal__body {
+            padding: 20px; height: 400px; overflow-y: auto; font-family: var(--mono); font-size: 13px;
+        }
+        .terminal__body::-webkit-scrollbar { width: 4px; }
+        .terminal__body::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 2px; }
+
+        .terminal__line { margin-bottom: 4px; line-height: 1.5; }
+        .terminal__line--system { color: var(--text-muted); }
+        .terminal__line--accent { color: var(--accent); }
+        .terminal__line--info { color: #6699ff; }
+        .terminal__line--warn { color: #ffbd2e; }
+        .terminal__line--error { color: #ff5f56; }
+        .terminal__line--success { color: var(--accent); font-weight: 600; }
+
+        .terminal__input-row {
+            display: flex; align-items: center; gap: 0;
+            margin-top: 8px;
+        }
+        .terminal__prompt {
+            color: var(--accent); font-family: var(--mono); font-size: 13px;
+            white-space: nowrap;
+        }
+        .terminal__input {
+            flex: 1; background: none; border: none; outline: none;
+            color: var(--text); font-family: var(--mono); font-size: 13px;
+            caret-color: var(--accent); padding-left: 4px;
+        }
+
+        .terminal__intro-title {
+            text-align: center; font-size: 13px;
+            margin-bottom: 16px; padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline { position: relative; padding-left: 36px; }
+        .timeline::before {
+            content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+            width: 2px; background: linear-gradient(180deg, var(--accent), var(--border) 60%, transparent);
+        }
+        .timeline__item {
+            position: relative; margin-bottom: 32px;
+            opacity: 0; transform: translateX(-20px);
+            transition: all 0.7s cubic-bezier(0.16,1,0.3,1);
+        }
+        .timeline__item.visible { opacity: 1; transform: translateX(0); }
+        .timeline__dot {
+            position: absolute; left: -33px; top: 8px;
+            width: 14px; height: 14px; border-radius: 50%;
+            background: var(--bg); border: 2px solid var(--accent); z-index: 2;
+            transition: all 0.3s;
+        }
+        .timeline__item--current .timeline__dot {
+            background: var(--accent); box-shadow: 0 0 16px var(--accent-glow);
+        }
+        .timeline__card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 24px; cursor: pointer; transition: all 0.3s;
+            position: relative; overflow: hidden;
+        }
+        .timeline__card::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(57,255,20,0.03), transparent);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .timeline__card:hover { border-color: rgba(57,255,20,0.3); transform: translateX(6px); }
+        .timeline__card:hover::before { opacity: 1; }
+
+        .timeline__role { font-size: 17px; font-weight: 700; position: relative; }
+        .timeline__badge {
+            display: inline-block; background: var(--accent); color: #000;
+            font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px;
+            margin-left: 10px; text-transform: uppercase; letter-spacing: 0.5px; vertical-align: middle;
+        }
+        .timeline__company { color: var(--accent); font-size: 14px; font-weight: 500; margin-top: 2px; }
+        .timeline__meta {
+            display: flex; gap: 16px; margin: 8px 0 12px;
+            font-size: 12px; color: var(--text-muted); font-family: var(--mono);
+        }
+        .timeline__summary { font-size: 14px; color: var(--text-secondary); line-height: 1.65; position: relative; }
+        .timeline__details {
+            max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.16,1,0.3,1);
+        }
+        .timeline__details.open { max-height: 500px; }
+        .timeline__details-inner { padding-top: 14px; border-top: 1px solid var(--border); margin-top: 14px; }
+        .timeline__detail {
+            font-size: 13px; color: var(--text-secondary); padding: 3px 0;
+            display: flex; align-items: flex-start; gap: 8px;
+        }
+        .timeline__detail::before { content: '•'; color: var(--accent); flex-shrink: 0; }
+        .timeline__expand {
+            font-size: 12px; color: var(--text-muted); margin-top: 10px;
+            transition: color 0.2s; font-family: var(--mono);
+        }
+        .timeline__card:hover .timeline__expand { color: var(--accent); }
+
+        /* ===== SKILLS ===== */
+        .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .skill-cat {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 24px; transition: all 0.3s;
+            opacity: 0; transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.16,1,0.3,1);
+        }
+        .skill-cat.visible { opacity: 1; transform: translateY(0); }
+        .skill-cat:hover { border-color: rgba(57,255,20,0.25); }
+        .skill-cat__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+        .skill-cat__name { font-size: 15px; font-weight: 700; }
+        .skill-cat__level {
+            font-family: var(--mono); font-size: 11px; color: var(--accent);
+            background: var(--accent-dim); padding: 3px 10px; border-radius: 10px;
+        }
+        .skill-bar { margin-bottom: 14px; }
+        .skill-bar__top { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .skill-bar__name { font-size: 13px; color: var(--text-secondary); }
+        .skill-bar__pct { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+        .skill-bar__track { height: 5px; background: rgba(255,255,255,0.04); border-radius: 3px; overflow: hidden; }
+        .skill-bar__fill {
+            height: 100%; border-radius: 3px;
+            background: linear-gradient(90deg, var(--accent), rgba(57,255,20,0.5));
+            width: 0; transition: width 1.4s cubic-bezier(0.16,1,0.3,1);
+            box-shadow: 0 0 8px rgba(57,255,20,0.2);
+        }
+
+        /* ===== EDU ===== */
+        .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .edu-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 24px; transition: all 0.3s;
+            opacity: 0; transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.16,1,0.3,1);
+        }
+        .edu-card.visible { opacity: 1; transform: translateY(0); }
+        .edu-card:hover { border-color: rgba(57,255,20,0.25); }
+        .edu-card__icon {
+            width: 42px; height: 42px; background: var(--accent-dim);
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 14px; font-size: 20px;
+        }
+        .edu-card__title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+        .edu-card__sub { font-size: 14px; color: var(--accent); margin-bottom: 4px; }
+        .edu-card__date { font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
+        .edu-card__tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .edu-card__tag {
+            background: rgba(255,255,255,0.03); font-size: 11px; color: var(--text-secondary);
+            padding: 4px 10px; border-radius: 4px; border: 1px solid var(--border);
+        }
+
+        /* ===== PROJECTS ===== */
+        .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .project-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 24px; transition: all 0.4s;
+            opacity: 0; transform: translateY(20px);
+            position: relative; overflow: hidden;
+        }
+        .project-card.visible { opacity: 1; transform: translateY(0); }
+        .project-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .project-card:hover {
+            border-color: var(--accent); transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(57,255,20,0.1);
+        }
+        .project-card:hover::before { opacity: 1; }
+        .project-card__tag {
+            font-family: var(--mono); font-size: 11px; color: var(--accent);
+            background: var(--accent-dim); padding: 4px 12px; border-radius: 10px;
+            display: inline-block; margin-bottom: 14px;
+        }
+        .project-card__title { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+        .project-card__desc { font-size: 13px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 16px; }
+        .project-card__tech { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+        .project-card__tech-tag {
+            font-size: 11px; color: var(--text-muted); background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border); padding: 3px 9px; border-radius: 4px;
+        }
+        .project-card__link {
+            display: inline-flex; align-items: center; gap: 6px;
+            color: var(--accent); font-size: 13px; font-weight: 600;
+            text-decoration: none; transition: gap 0.2s; font-family: var(--mono);
+        }
+        .project-card__link:hover { gap: 12px; }
+
+        /* ===== CONTACT SECTION ===== */
+        .contact-section {
+            padding: 80px 32px; max-width: 1200px; margin: 0 auto;
+            border-top: 1px solid var(--border);
+        }
+        .contact-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+            max-width: 900px; margin: 0 auto;
+        }
+        .contact-info { display: flex; flex-direction: column; gap: 16px; }
+        .contact-item {
+            display: flex; align-items: center; gap: 14px;
+            text-decoration: none; color: var(--text-secondary);
+            font-size: 14px; padding: 12px 16px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 10px; transition: all 0.3s;
+        }
+        .contact-item:hover { border-color: var(--accent); color: var(--accent); transform: translateX(4px); }
+        .contact-item__icon {
+            width: 36px; height: 36px; background: var(--accent-dim);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            color: var(--accent); font-size: 16px; flex-shrink: 0;
+        }
+
+        .contact-stats {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+        }
+        .stat-box {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 10px; padding: 20px; text-align: center;
+            transition: all 0.3s;
+        }
+        .stat-box:hover { border-color: rgba(57,255,20,0.3); }
+        .stat-box__num {
+            font-size: 32px; font-weight: 800; color: var(--accent);
+            font-family: var(--mono); line-height: 1;
+        }
+        .stat-box__label { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+
+        .contact-btns { display: flex; gap: 12px; margin-top: 20px; }
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 14px 28px; border-radius: 8px; font-size: 14px; font-weight: 600;
+            text-decoration: none; cursor: pointer; transition: all 0.3s; border: none;
+            font-family: var(--sans);
+        }
+        .btn--primary { background: var(--accent); color: #000; }
+        .btn--primary:hover { box-shadow: 0 0 30px var(--accent-glow); transform: translateY(-2px); }
+        .btn--secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+        .btn--secondary:hover { background: var(--accent-dim); }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            border-top: 1px solid var(--border); padding: 28px 32px;
+            display: flex; justify-content: space-between; align-items: center;
+            max-width: 1200px; margin: 0 auto;
+        }
+        .footer__text { font-size: 13px; color: var(--text-muted); }
+        .footer__top {
+            color: var(--accent); text-decoration: none; font-size: 13px;
+            font-weight: 500; font-family: var(--mono); transition: all 0.2s;
+        }
+        .footer__top:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+        /* ===== ANIMATE HELPERS ===== */
+        .fade-up {
+            opacity: 0; transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.16,1,0.3,1);
+        }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .hero__layout { grid-template-columns: 1fr; }
+            .hero-sidebar { position: relative; top: 0; }
+            .hero-sidebar__stats { grid-template-columns: repeat(4, 1fr); }
+            .skills-grid, .edu-grid, .contact-grid { grid-template-columns: 1fr; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .hero__name { font-size: 36px; }
+            .hero__top { flex-direction: column; align-items: center; text-align: center; }
+            .hero__tags { justify-content: center; }
+            .contact-btns { flex-direction: column; }
+        }
+        @media (max-width: 768px) {
+            .nav__links { display: none; }
+            .nav__links.open {
+                display: flex; flex-direction: column;
+                position: absolute; top: 56px; left: 0; right: 0;
+                background: rgba(5,5,8,0.95); backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border); padding: 16px; gap: 4px;
+            }
+            .nav__mobile { display: block; }
+            .hero { padding: 76px 20px 24px; }
+            .section, .terminal-section, .contact-section { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useCallback } = React;
+
+        // ===== MATRIX RAIN =====
+        function MatrixRain() {
+            useEffect(() => {
+                const canvas = document.getElementById('matrix-canvas');
+                const ctx = canvas.getContext('2d');
+                let animId;
+
+                const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+                resize();
+                window.addEventListener('resize', resize);
+
+                const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF<>{}[]=/\\';
+                const fontSize = 14;
+                const columns = Math.floor(canvas.width / fontSize);
+                const drops = new Array(columns).fill(1).map(() => Math.random() * -100);
+
+                function draw() {
+                    ctx.fillStyle = 'rgba(5, 5, 8, 0.06)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = 'rgba(57, 255, 20, 0.12)';
+                    ctx.font = fontSize + 'px monospace';
+
+                    for (let i = 0; i < drops.length; i++) {
+                        const char = chars[Math.floor(Math.random() * chars.length)];
+                        const x = i * fontSize;
+                        const y = drops[i] * fontSize;
+
+                        if (y > 0) {
+                            ctx.globalAlpha = Math.random() * 0.15 + 0.03;
+                            ctx.fillText(char, x, y);
+                        }
+
+                        if (y > canvas.height && Math.random() > 0.985) {
+                            drops[i] = 0;
+                        }
+                        drops[i] += 0.5;
+                    }
+                    ctx.globalAlpha = 1;
+                    animId = requestAnimationFrame(draw);
+                }
+                draw();
+                return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize); };
+            }, []);
+            return null;
+        }
+
+        // ===== SCROLL ANIMATION HOOK =====
+        function useScrollReveal(ref, delay = 0) {
+            useEffect(() => {
+                const el = ref.current;
+                if (!el) return;
+                const obs = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => el.classList.add('visible'), delay);
+                        obs.unobserve(el);
+                    }
+                }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+                obs.observe(el);
+                return () => obs.disconnect();
+            }, [ref, delay]);
+        }
+
+        function AnimateIn({ children, delay = 0, className = '' }) {
+            const ref = useRef(null);
+            useScrollReveal(ref, delay);
+            return <div ref={ref} className={`fade-up ${className}`}>{children}</div>;
+        }
+
+        // ===== TYPING EFFECT =====
+        function TypeWriter({ text, speed = 60, onDone }) {
+            const [displayed, setDisplayed] = useState('');
+            const [done, setDone] = useState(false);
+            useEffect(() => {
+                let i = 0;
+                const interval = setInterval(() => {
+                    if (i < text.length) { setDisplayed(text.slice(0, i + 1)); i++; }
+                    else { clearInterval(interval); setDone(true); onDone && onDone(); }
+                }, speed);
+                return () => clearInterval(interval);
+            }, [text]);
+            return <>{displayed}{!done && <span className="cursor"></span>}</>;
+        }
+
+        // ===== NAV =====
+        function Nav() {
+            const [open, setOpen] = useState(false);
+            const [active, setActive] = useState('about');
+
+            useEffect(() => {
+                const handleScroll = () => {
+                    const sections = ['about','terminal','experience','skills','education','projects','contact'];
+                    for (const id of sections.reverse()) {
+                        const el = document.getElementById(id);
+                        if (el && window.scrollY >= el.offsetTop - 120) { setActive(id); break; }
+                    }
+                };
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            const links = [
+                { id: 'about', label: 'About' },
+                { id: 'terminal', label: 'Terminal' },
+                { id: 'experience', label: 'Experience' },
+                { id: 'skills', label: 'Skills' },
+                { id: 'education', label: 'Education' },
+                { id: 'projects', label: 'Projects' },
+                { id: 'contact', label: 'Contact' },
+            ];
+
+            return (
+                <nav className="nav">
+                    <div className="nav__inner">
+                        <a href="#about" className="nav__logo">io<span>rourke</span>.com</a>
+                        <button className="nav__mobile" onClick={() => setOpen(!open)}>&#9776;</button>
+                        <ul className={`nav__links ${open ? 'open' : ''}`}>
+                            {links.map(l => (
+                                <li key={l.id}>
+                                    <a href={`#${l.id}`} className={active === l.id ? 'active' : ''}
+                                       onClick={() => setOpen(false)}>{l.label}</a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </nav>
+            );
+        }
+
+        // ===== HERO SIDEBAR (contact panel) =====
+        function HeroSidebar() {
+            return (
+                <div className="hero-sidebar" id="contact">
+                    <h3 className="hero-sidebar__title">Get In Touch</h3>
+                    <div className="hero-sidebar__items">
+                        <a href="mailto:ian@iogames.us" className="hero-sidebar__item">
+                            <span className="hero-sidebar__icon">✉</span>
+                            <span>ianmorourke@gmail.com</span>
+                        </a>
+                        <a href="tel:301-658-8431" className="hero-sidebar__item">
+                            <span className="hero-sidebar__icon">📞</span>
+                            <span>(301) 658-8431</span>
+                        </a>
+                        <a href="https://linkedin.com/in/ian-m-orourke" className="hero-sidebar__item" target="_blank" rel="noopener">
+                            <span className="hero-sidebar__icon">🔗</span>
+                            <span>LinkedIn</span>
+                        </a>
+                        <a href="https://github.com/IOGamesUS" className="hero-sidebar__item" target="_blank" rel="noopener">
+                            <span className="hero-sidebar__icon">💻</span>
+                            <span>GitHub</span>
+                        </a>
+                        <div className="hero-sidebar__item">
+                            <span className="hero-sidebar__icon">📍</span>
+                            <span>Alexandria, VA</span>
+                        </div>
+                    </div>
+                    <div className="hero-sidebar__btns">
+                        <a href="#" className="btn btn--primary" style={{fontSize:13, padding:'11px 20px'}}>⬇ Download Resume</a>
+                        <a href="mailto:ian@iogames.us" className="btn btn--secondary" style={{fontSize:13, padding:'11px 20px'}}>Let's Connect</a>
+                    </div>
+                    <hr className="hero-sidebar__divider" />
+                    <h3 className="hero-sidebar__title">At a Glance</h3>
+                    <div className="hero-sidebar__stats">
+                        <div className="hero-sidebar__stat">
+                            <Counter target={10} label="Years Exp" />
+                        </div>
+                        <div className="hero-sidebar__stat">
+                            <Counter target={2} label="Companies" />
+                        </div>
+                        <div className="hero-sidebar__stat">
+                            <Counter target={3} label="AI Projects" />
+                        </div>
+                        <div className="hero-sidebar__stat">
+                            <Counter target={1} label="Certs" />
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // ===== HERO =====
+        function Hero() {
+            const tags = ['AI Product Strategy','AI Productivity','Vibe Coding','AI Website Creation','LLM Applications','Agile Development','Innovation'];
+            return (
+                <section className="hero" id="about">
+                    <div className="hero__layout">
+                        <div className="hero__left">
+                            <div className="hero__top">
+                                <img src="pfp.JPG" alt="Ian O'Rourke" className="hero__photo" />
+                                <div>
+                                    <h1 className="hero__name"><TypeWriter text="Ian O'Rourke" speed={80} /></h1>
+                                    <p className="hero__title">Product Manager &bull; AI Strategist</p>
+                                </div>
+                            </div>
+                            <div className="hero__tags">
+                                {tags.map((t, i) => <span key={i} className="hero__tag" style={{animationDelay: `${i*0.05}s`}}>{t}</span>)}
+                            </div>
+                            <div className="hero__summary">
+                                <h3>Professional Summary</h3>
+                                <p>AI Augmented Product Manager and AI strategist with 10+ years of experience driving digital transformation, product development, and data-driven innovation across enterprise organizations. Passionate about leveraging AI and emerging technologies to build impactful products and optimize team workflows and productivity.</p>
+                                <div className="hero__achievements">
+                                    <div className="hero__achievement">Enhanced productivity by utilizing AI in Product Management workflows, like PRD writing</div>
+                                    <div className="hero__achievement">Specialized in AI/ML product strategy and hands-on AI application development</div>
+                                    <div className="hero__achievement">Led product management on complex financial services platforms</div>
+                                    <div className="hero__achievement">Built and maintained API integrations serving internal and external stakeholders</div>
+                                </div>
+                            </div>
+                        </div>
+                        <HeroSidebar />
+                    </div>
+                </section>
+            );
+        }
+
+        // ===== TERMINAL GAME =====
+        const TERMINAL_COMMANDS = {
+            help: () => [
+                { text: '  Available commands:', type: 'accent' },
+                { text: '  ─────────────────────────────────', type: 'system' },
+                { text: '  whoami          → About Ian', type: 'info' },
+                { text: '  ls projects     → List AI projects', type: 'info' },
+                { text: '  cat skills      → View skill matrix', type: 'info' },
+                { text: '  cat resume      → View resume summary', type: 'info' },
+                { text: '  contact         → Get in touch', type: 'info' },
+                { text: '  history         → Work history', type: 'info' },
+                { text: '  hack mainframe  → ???', type: 'warn' },
+                { text: '  sudo hire ian   → 😏', type: 'warn' },
+                { text: '  neofetch        → System info', type: 'info' },
+                { text: '  clear           → Clear terminal', type: 'info' },
+            ],
+            whoami: () => [
+                { text: '  ┌──────────────────────────────────┐', type: 'accent' },
+                { text: '  │  Ian O\'Rourke                    │', type: 'accent' },
+                { text: '  │  Product Manager (Manager)        │', type: 'system' },
+                { text: '  │  Capital One · Alexandria, VA     │', type: 'system' },
+                { text: '  │  10+ years experience             │', type: 'system' },
+                { text: '  │  BS Computer Science · WVU \'14   │', type: 'system' },
+                { text: '  └──────────────────────────────────┘', type: 'accent' },
+                { text: '  AI builder. Vibe coder. Product thinker.', type: 'info' },
+            ],
+            'ls projects': () => [
+                { text: '  drwxr-xr-x  ian  projects/', type: 'system' },
+                { text: '  ─────────────────────────────────', type: 'system' },
+                { text: '  📁 razorio.com      → AI market research & business validation', type: 'accent' },
+                { text: '  📁 hyperbreaks.com  → Star Wars card break tracking platform', type: 'accent' },
+                { text: '  📁 iorourke.com     → This site (AI-generated resume)', type: 'accent' },
+                { text: '', type: 'system' },
+                { text: '  3 projects, all built with AI 🤖', type: 'info' },
+            ],
+            'cat skills': () => [
+                { text: '  ═══ SKILL MATRIX ═══', type: 'accent' },
+                { text: '  Product Strategy   ████████████████████░  95%', type: 'success' },
+                { text: '  API Integration    ███████████████████░░  94%', type: 'success' },
+                { text: '  Agile / Scrum      ███████████████████░░  93%', type: 'success' },
+                { text: '  LLM Applications   █████████████████░░░░  88%', type: 'info' },
+                { text: '  SQL & Databases    █████████████████░░░░  88%', type: 'info' },
+                { text: '  AI Product Design  █████████████████░░░░  85%', type: 'info' },
+                { text: '  Vibe Coding        ████████████████░░░░░  82%', type: 'info' },
+                { text: '  HTML / CSS / JS    ████████████████░░░░░  80%', type: 'info' },
+            ],
+            'cat resume': () => [
+                { text: '  === RESUME ===', type: 'accent' },
+                { text: '  Product Manager (Manager) @ Capital One    2022–Present', type: 'success' },
+                { text: '  Integration Engineer @ Capital One          2019–2022', type: 'info' },
+                { text: '  Technical Consultant @ Fishbowl, Inc.       2014–2019', type: 'info' },
+                { text: '', type: 'system' },
+                { text: '  Education: BS Computer Science, WVU (2014)', type: 'system' },
+                { text: '  Certification: PMML Certificate', type: 'system' },
+                { text: '', type: 'system' },
+                { text: '  For full resume → use the download button below ⬇', type: 'warn' },
+            ],
+            contact: () => [
+                { text: '  ┌─ CONTACT ─────────────────────────┐', type: 'accent' },
+                { text: '  │  📧  ian@iogames.us               │', type: 'info' },
+                { text: '  │  📞  (301) 658-8431               │', type: 'info' },
+                { text: '  │  📍  Carnegie, PA                  │', type: 'info' },
+                { text: '  │  🔗  LinkedIn (link below)         │', type: 'info' },
+                { text: '  │  💻  GitHub (link below)           │', type: 'info' },
+                { text: '  └────────────────────────────────────┘', type: 'accent' },
+            ],
+            history: () => [
+                { text: '  → 2022–Present  Product Manager (Manager) · Capital One', type: 'success' },
+                { text: '    Promoted from Sr. Associate → Manager', type: 'system' },
+                { text: '    Feature epics, backlog mgmt, agile practices', type: 'system' },
+                { text: '', type: 'system' },
+                { text: '  → 2019–2022     Integration Engineer · Capital One', type: 'info' },
+                { text: '    API integrations, client support, Developer Academy lead', type: 'system' },
+                { text: '', type: 'system' },
+                { text: '  → 2014–2019     Technical Consultant · Fishbowl, Inc.', type: 'info' },
+                { text: '    C#, SQL, SaaS solutions for restaurant industry', type: 'system' },
+            ],
+            neofetch: () => [
+                { text: '    ██╗ ██████╗', type: 'accent' },
+                { text: '    ██║██╔═══██╗     ian@iorourke.com', type: 'accent' },
+                { text: '    ██║██║   ██║     ──────────────────', type: 'accent' },
+                { text: '    ██║██║   ██║     OS: Human v33', type: 'info' },
+                { text: '    ██║╚██████╔╝     Role: Product Manager', type: 'info' },
+                { text: '    ╚═╝ ╚═════╝      Uptime: 10+ years', type: 'info' },
+                { text: '                      Shell: vibe-code v2.0', type: 'info' },
+                { text: '                      IDE: Claude AI', type: 'info' },
+                { text: '                      Theme: Matrix Green', type: 'info' },
+                { text: '                      Coffee: ████████████ 100%', type: 'success' },
+            ],
+            'hack mainframe': () => {
+                return [
+                    { text: '  [*] Initializing hack sequence...', type: 'warn' },
+                    { text: '  [*] Bypassing firewall ██████████ 100%', type: 'warn', delay: 400 },
+                    { text: '  [*] Injecting payload ██████████ 100%', type: 'warn', delay: 800 },
+                    { text: '  [*] Decrypting mainframe...', type: 'warn', delay: 1200 },
+                    { text: '  [*] ██████████████████████████', type: 'error', delay: 1600 },
+                    { text: '  [!] ACCESS DENIED', type: 'error', delay: 2000 },
+                    { text: '  [!] Just kidding. But you should hire Ian. 😎', type: 'success', delay: 2400 },
+                ];
+            },
+            'sudo hire ian': () => [
+                { text: '  [sudo] password for recruiter: ********', type: 'system' },
+                { text: '  ✅ Authorization granted.', type: 'success' },
+                { text: '  📧 Sending offer to ian@iogames.us...', type: 'accent' },
+                { text: '  🎉 Excellent decision! Ian has been notified.', type: 'success' },
+                { text: '', type: 'system' },
+                { text: '  (Seriously though — let\'s connect! Scroll to Contact ⬇)', type: 'info' },
+            ],
+        };
+
+        function Terminal() {
+            const [lines, setLines] = useState([
+                { text: '  Welcome to Ian OS v2.0', type: 'accent' },
+                { text: '  Type "help" for available commands.', type: 'system' },
+                { text: '', type: 'system' },
+            ]);
+            const [input, setInput] = useState('');
+            const [cmdHistory, setCmdHistory] = useState([]);
+            const [histIdx, setHistIdx] = useState(-1);
+            const bodyRef = useRef(null);
+            const inputRef = useRef(null);
+
+            const scrollBottom = () => {
+                if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
+            };
+
+            useEffect(scrollBottom, [lines]);
+
+            const runCommand = (cmd) => {
+                const trimmed = cmd.trim().toLowerCase();
+                const newLines = [{ text: `  visitor@iorourke:~$ ${cmd}`, type: 'accent' }];
+
+                if (trimmed === 'clear') {
+                    setLines([]);
+                    return;
+                }
+
+                const handler = TERMINAL_COMMANDS[trimmed];
+                if (handler) {
+                    const result = handler();
+                    const hasDelay = result.some(r => r.delay);
+                    if (hasDelay) {
+                        setLines(prev => [...prev, ...newLines]);
+                        result.forEach(line => {
+                            setTimeout(() => {
+                                setLines(prev => [...prev, { text: line.text, type: line.type }]);
+                            }, line.delay || 0);
+                        });
+                    } else {
+                        setLines(prev => [...prev, ...newLines, ...result, { text: '', type: 'system' }]);
+                    }
+                } else {
+                    setLines(prev => [...prev, ...newLines,
+                        { text: `  command not found: ${trimmed}. Type "help" for commands.`, type: 'error' },
+                        { text: '', type: 'system' },
+                    ]);
+                }
+            };
+
+            const handleKey = (e) => {
+                if (e.key === 'Enter') {
+                    if (input.trim()) {
+                        setCmdHistory(prev => [input, ...prev]);
+                        setHistIdx(-1);
+                        runCommand(input);
+                    }
+                    setInput('');
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (cmdHistory.length > 0) {
+                        const next = Math.min(histIdx + 1, cmdHistory.length - 1);
+                        setHistIdx(next);
+                        setInput(cmdHistory[next]);
+                    }
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (histIdx > 0) {
+                        setHistIdx(histIdx - 1);
+                        setInput(cmdHistory[histIdx - 1]);
+                    } else {
+                        setHistIdx(-1);
+                        setInput('');
+                    }
+                }
+            };
+
+            return (
+                <div className="terminal-section" id="terminal">
+                    <AnimateIn>
+                        <div style={{textAlign:'center', marginBottom: 32}}>
+                            <h2 style={{fontSize:28, fontWeight:800, letterSpacing:'-1px', marginBottom:8}}>Access Terminal</h2>
+                            <p style={{color:'var(--text-secondary)', fontSize:14, fontFamily:'var(--mono)'}}>
+                                Try typing <span style={{color:'var(--accent)'}}>help</span> to explore
+                            </p>
+                        </div>
+                    </AnimateIn>
+                    <AnimateIn delay={200}>
+                        <div className="terminal" onClick={() => inputRef.current?.focus()}>
+                            <div className="terminal__bar">
+                                <span className="terminal__dot terminal__dot--red"></span>
+                                <span className="terminal__dot terminal__dot--yellow"></span>
+                                <span className="terminal__dot terminal__dot--green"></span>
+                                <span className="terminal__title">visitor@iorourke ~ bash</span>
+                            </div>
+                            <div className="terminal__body" ref={bodyRef}>
+                                {lines.map((line, i) => (
+                                    <div key={i} className={`terminal__line terminal__line--${line.type}`}>{line.text}</div>
+                                ))}
+                                <div className="terminal__input-row">
+                                    <span className="terminal__prompt">visitor@iorourke:~$&nbsp;</span>
+                                    <input
+                                        ref={inputRef}
+                                        className="terminal__input"
+                                        value={input}
+                                        onChange={e => setInput(e.target.value)}
+                                        onKeyDown={handleKey}
+                                        autoComplete="off"
+                                        spellCheck="false"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </AnimateIn>
+                </div>
+            );
+        }
+
+        // ===== TIMELINE =====
+        function TimelineItem({ role, company, location, dates, summary, details, current, delay }) {
+            const [open, setOpen] = useState(false);
+            const ref = useRef(null);
+            useScrollReveal(ref, delay);
+
+            return (
+                <div ref={ref} className={`timeline__item ${current ? 'timeline__item--current' : ''} fade-up`}>
+                    <div className="timeline__dot"></div>
+                    <div className="timeline__card" onClick={() => setOpen(!open)}>
+                        <h3 className="timeline__role">
+                            {role}{current && <span className="timeline__badge">Current</span>}
+                        </h3>
+                        <div className="timeline__company">{company}</div>
+                        <div className="timeline__meta"><span>{location}</span><span>{dates}</span></div>
+                        <p className="timeline__summary">{summary}</p>
+                        <div className={`timeline__details ${open ? 'open' : ''}`}>
+                            <div className="timeline__details-inner">
+                                {details.map((d, i) => <div key={i} className="timeline__detail">{d}</div>)}
+                            </div>
+                        </div>
+                        <p className="timeline__expand">{open ? 'Click to collapse ↑' : 'Click to view full details →'}</p>
+                    </div>
+                </div>
+            );
+        }
+
+        function Experience() {
+            const roles = [
+                {
+                    role: 'Product Manager (Manager)', company: 'Capital One',
+                    location: 'McLean, VA', dates: 'Jan 2022 — Present', current: true,
+                    summary: 'Leading product strategy and backlog management for enterprise teams. Writing feature epics, driving agile practices, and collaborating with cross-functional development teams.',
+                    details: ['Write Feature Epics for developer teams based on business requirements','Prioritize and manage backlog and workstreams for teams','Participate in AGILE practices and team norms with developers','Test and approve stories and features','Promoted from Senior Associate to Manager'],
+                },
+                {
+                    role: 'Integration Engineer', company: 'Capital One',
+                    location: 'McLean, VA', dates: 'Aug 2019 — Jan 2022', current: false,
+                    summary: 'Integrated internal and external clients with APIs, working closely with stakeholders to foster client success and improve API product delivery.',
+                    details: ['Integrated internal and external clients with APIs','Worked closely with stakeholders to foster client success','Supported API products and their end users','Scripted solutions for integration and team needs','Led a Developer Academy software development team','Worked with gateway team on integration, networking and security solutions'],
+                },
+                {
+                    role: 'Technical Consultant', company: 'Fishbowl, Inc.',
+                    location: 'Alexandria, VA', dates: 'Aug 2014 — Aug 2019', current: false,
+                    summary: 'Designed and implemented enterprise applications and data analytics solutions for the restaurant industry, utilizing C#, SQL, and web development technologies.',
+                    details: ['Designed, implemented and maintained customer solutions using various technical tools','Built enterprise applications using C#, SQL and web development languages','Designed and implemented SQL Server tools including Stored Procedures and jobs','Delivered SaaS digital marketing and data analytics solutions for the restaurant industry','Managed and queried SQL databases using GUIs and SQL Server Management Studio','Led and taught support team on technical subjects'],
+                },
+            ];
+
+            return (
+                <section className="section" id="experience">
+                    <div className="section__header">
+                        <h2 className="section__title">Experience</h2>
+                        <div className="section__line"></div>
+                        <span className="section__count">3 roles</span>
+                    </div>
+                    <div className="timeline">
+                        {roles.map((r, i) => <TimelineItem key={i} {...r} delay={i * 150} />)}
+                    </div>
+                </section>
+            );
+        }
+
+        // ===== SKILLS =====
+        function SkillBar({ name, pct, delay }) {
+            const ref = useRef(null);
+            const [animated, setAnimated] = useState(false);
+
+            useEffect(() => {
+                const el = ref.current;
+                if (!el) return;
+                const obs = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => setAnimated(true), delay);
+                        obs.unobserve(el);
+                    }
+                }, { threshold: 0.3 });
+                obs.observe(el);
+                return () => obs.disconnect();
+            }, [delay]);
+
+            return (
+                <div className="skill-bar" ref={ref}>
+                    <div className="skill-bar__top">
+                        <span className="skill-bar__name">{name}</span>
+                        <span className="skill-bar__pct">{pct}%</span>
+                    </div>
+                    <div className="skill-bar__track">
+                        <div className="skill-bar__fill" style={{width: animated ? `${pct}%` : '0%'}}></div>
+                    </div>
+                </div>
+            );
+        }
+
+        function SkillCategory({ name, level, skills, delay }) {
+            const ref = useRef(null);
+            useScrollReveal(ref, delay);
+            return (
+                <div ref={ref} className="skill-cat fade-up">
+                    <div className="skill-cat__head">
+                        <h3 className="skill-cat__name">{name}</h3>
+                        <span className="skill-cat__level">{level}</span>
+                    </div>
+                    {skills.map((s, i) => <SkillBar key={i} name={s.name} pct={s.pct} delay={delay + i * 100} />)}
+                </div>
+            );
+        }
+
+        function Skills() {
+            const categories = [
+                { name: 'Product Management', level: 'Expert', skills: [
+                    {name:'Product Strategy', pct:95}, {name:'Backlog Prioritization', pct:92},
+                    {name:'Stakeholder Management', pct:90}, {name:'Agile / Scrum', pct:93}
+                ]},
+                { name: 'AI & Emerging Tech', level: 'Advanced', skills: [
+                    {name:'LLM Applications', pct:88}, {name:'AI Product Strategy', pct:85},
+                    {name:'Vibe Coding', pct:82}, {name:'Prompt Engineering', pct:86}
+                ]},
+                { name: 'Technical Skills', level: 'Advanced', skills: [
+                    {name:'API Integration', pct:94}, {name:'SQL & Databases', pct:88},
+                    {name:'Git & Source Control', pct:85}, {name:'HTML / CSS / JS', pct:80}
+                ]},
+                { name: 'Leadership', level: 'Expert', skills: [
+                    {name:'Cross-functional Teams', pct:92}, {name:'Agile Coaching', pct:90},
+                    {name:'Mentoring & Training', pct:88}, {name:'Change Management', pct:85}
+                ]},
+            ];
+
+            return (
+                <section className="section" id="skills">
+                    <div className="section__header">
+                        <h2 className="section__title">Skills & Expertise</h2>
+                        <div className="section__line"></div>
+                    </div>
+                    <div className="skills-grid">
+                        {categories.map((c, i) => <SkillCategory key={i} {...c} delay={i * 120} />)}
+                    </div>
+                </section>
+            );
+        }
+
+        // ===== EDUCATION =====
+        function Education() {
+            const ref1 = useRef(null);
+            const ref2 = useRef(null);
+            useScrollReveal(ref1, 0);
+            useScrollReveal(ref2, 150);
+
+            return (
+                <section className="section" id="education">
+                    <div className="section__header">
+                        <h2 className="section__title">Education & Credentials</h2>
+                        <div className="section__line"></div>
+                    </div>
+                    <div className="edu-grid">
+                        <div ref={ref1} className="edu-card fade-up">
+                            <div className="edu-card__icon">🎓</div>
+                            <h3 className="edu-card__title">Bachelor of Science in Computer Science</h3>
+                            <p className="edu-card__sub">West Virginia University</p>
+                            <p className="edu-card__date">Graduated May 2014</p>
+                            <div className="edu-card__tags">
+                                {['Software Engineering','Data Structures','Database Design','Algorithms','Systems Architecture'].map((t,i) =>
+                                    <span key={i} className="edu-card__tag">{t}</span>
+                                )}
+                            </div>
+                        </div>
+                        <div ref={ref2} className="edu-card fade-up">
+                            <div className="edu-card__icon">📋</div>
+                            <h3 className="edu-card__title">PMML Certificate</h3>
+                            <p className="edu-card__sub">Professional Certification</p>
+                            <p className="edu-card__date">&nbsp;</p>
+                            <div className="edu-card__tags">
+                                {['Product Management','Machine Learning'].map((t,i) =>
+                                    <span key={i} className="edu-card__tag">{t}</span>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        }
+
+        // ===== PROJECTS =====
+        function ProjectCard({ tag, title, desc, tech, link, delay }) {
+            const ref = useRef(null);
+            useScrollReveal(ref, delay);
+            return (
+                <div ref={ref} className="project-card fade-up">
+                    <span className="project-card__tag">{tag}</span>
+                    <h3 className="project-card__title">{title}</h3>
+                    <p className="project-card__desc">{desc}</p>
+                    <div className="project-card__tech">
+                        {tech.map((t,i) => <span key={i} className="project-card__tech-tag">{t}</span>)}
+                    </div>
+                    {link && <a href={link} className="project-card__link" target="_blank" rel="noopener">View Live →</a>}
+                </div>
+            );
+        }
+
+        function Projects() {
+            const projects = [
+                {
+                    tag: 'AI / Web', title: 'iorourke.com',
+                    desc: 'This very site — a fully AI-generated digital resume built using vibe coding techniques and LLM-assisted development. Features a Matrix rain background and interactive hacker terminal.',
+                    tech: ['React','Claude AI','Vibe Coding','CSS3'],
+                    link: 'https://iorourke.com',
+                },
+                {
+                    tag: 'AI / SaaS', title: 'Razor IO',
+                    desc: 'AI-powered market research tool for validating business ideas. Generates instant viability scores, competition analysis, startup cost estimates, and demand trends for entrepreneurs.',
+                    tech: ['AI/ML','Market Research','SaaS','Full Stack'],
+                    link: 'https://razorio.com',
+                },
+                {
+                    tag: 'AI / Collectibles', title: 'HyperBreaks',
+                    desc: 'Real-time Star Wars card break tracking platform. Features live break streaming, chase list alerts, pull history tracking, and WhatNot integration for the collector community.',
+                    tech: ['Real-time','Full Stack','WhatNot API','Live Streaming'],
+                    link: 'https://hyperbreaks.com',
+                },
+            ];
+
+            return (
+                <section className="section" id="projects">
+                    <div className="section__header">
+                        <h2 className="section__title">AI Projects</h2>
+                        <div className="section__line"></div>
+                        <span className="section__count">3 projects</span>
+                    </div>
+                    <div className="projects-grid">
+                        {projects.map((p, i) => <ProjectCard key={i} {...p} delay={i * 150} />)}
+                    </div>
+                </section>
+            );
+        }
+
+        // ===== COUNTER =====
+        function Counter({ target, label }) {
+            const [val, setVal] = useState(0);
+            const ref = useRef(null);
+            const started = useRef(false);
+
+            useEffect(() => {
+                const el = ref.current;
+                if (!el) return;
+                const obs = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting && !started.current) {
+                        started.current = true;
+                        let cur = 0;
+                        const inc = Math.max(1, Math.ceil(target / 40));
+                        const timer = setInterval(() => {
+                            cur += inc;
+                            if (cur >= target) { cur = target; clearInterval(timer); }
+                            setVal(cur);
+                        }, 35);
+                        obs.unobserve(el);
+                    }
+                }, { threshold: 0.5 });
+                obs.observe(el);
+                return () => obs.disconnect();
+            }, [target]);
+
+            return (
+                <div ref={ref}>
+                    <div className="hero-sidebar__stat-num">{val}+</div>
+                    <div className="hero-sidebar__stat-label">{label}</div>
+                </div>
+            );
+        }
+
+        // ===== APP =====
+        function App() {
+            return (
+                <>
+                    <MatrixRain />
+                    <Nav />
+                    <Hero />
+                    <Terminal />
+                    <Experience />
+                    <Skills />
+                    <Education />
+                    <Projects />
+                    <footer className="footer">
+                        <p className="footer__text">© 2026 Ian O'Rourke. Built with AI.</p>
+                        <a href="#about" className="footer__top">↑ back_to_top</a>
+                    </footer>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
