@@ -787,6 +787,13 @@
 
         // ===== HERO SIDEBAR (contact panel) =====
         function HeroSidebar() {
+            const [copied, setCopied] = React.useState(false);
+            const copyEmail = () => {
+                navigator.clipboard.writeText('ianmorourke@gmail.com').then(() => {
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                });
+            };
             return (
                 <div className="hero-sidebar" id="contact">
                     <h3 className="hero-sidebar__title">Get In Touch</h3>
@@ -813,7 +820,7 @@
                         </div>
                     </div>
                     <div className="hero-sidebar__btns">
-                        <a href="mailto:ianmorourke@gmail.com" className="btn btn--primary" style={{fontSize:13, padding:'11px 20px'}}>Let's Connect</a>
+                        <button onClick={copyEmail} className="btn btn--primary" style={{fontSize:13, padding:'11px 20px'}}>{copied ? '✓ Email Copied!' : "Let's Connect"}</button>
                     </div>
                     <hr className="hero-sidebar__divider" />
                     <h3 className="hero-sidebar__title">At a Glance</h3>
