@@ -1008,11 +1008,44 @@
             const bodyRef = useRef(null);
             const inputRef = useRef(null);
 
+            const [autoTyping, setAutoTyping] = useState(true);
+            const [displayInput, setDisplayInput] = useState('');
+
             const scrollBottom = () => {
                 if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
             };
 
             useEffect(scrollBottom, [lines]);
+
+            // Auto-play sequence on mount
+            useEffect(() => {
+                if (!autoTyping) return;
+                const cmd = 'whoami';
+                const typeDelay = 80;
+                const startDelay = 800;
+                let cancelled = false;
+
+                const run = async () => {
+                    await new Promise(r => setTimeout(r, startDelay));
+                    if (cancelled) return;
+                    // Type command character by character
+                    for (let i = 0; i <= cmd.length; i++) {
+                        if (cancelled) return;
+                        setDisplayInput(cmd.slice(0, i));
+                        await new Promise(r => setTimeout(r, typeDelay));
+                    }
+                    if (cancelled) return;
+                    await new Promise(r => setTimeout(r, 300));
+                    if (cancelled) return;
+                    // Execute and clear typed input
+                    setDisplayInput('');
+                    setInput('');
+                    runCommand(cmd);
+                    setAutoTyping(false);
+                };
+                run();
+                return () => { cancelled = true; };
+            }, []);
 
             const runCommand = (cmd) => {
                 const trimmed = cmd.trim().toLowerCase();
@@ -1076,9 +1109,9 @@
                 <div className="terminal-section" id="terminal">
                     <AnimateIn>
                         <div style={{textAlign:'center', marginBottom: 32}}>
-                            <h2 style={{fontSize:28, fontWeight:800, letterSpacing:'-1px', marginBottom:8}}>Access Terminal</h2>
+                            <h2 style={{fontSize:28, fontWeight:800, letterSpacing:'-1px', marginBottom:8}}>Interactive Terminal</h2>
                             <p style={{color:'var(--text-secondary)', fontSize:14, fontFamily:'var(--mono)'}}>
-                                Try typing <span style={{color:'var(--accent)'}}>help</span> to explore
+                                Type <span style={{color:'var(--accent)'}}>help</span> to see all commands
                             </p>
                         </div>
                     </AnimateIn>
@@ -1099,9 +1132,9 @@
                                     <input
                                         ref={inputRef}
                                         className="terminal__input"
-                                        value={input}
-                                        onChange={e => setInput(e.target.value)}
-                                        onKeyDown={handleKey}
+                                        value={autoTyping ? displayInput : input}
+                                        onChange={e => { if (!autoTyping) setInput(e.target.value); }}
+                                        onKeyDown={e => { if (!autoTyping) handleKey(e); else { setAutoTyping(false); setDisplayInput(''); } }}
                                         autoComplete="off"
                                         spellCheck="false"
                                         aria-label="Terminal command input — type help for available commands"
