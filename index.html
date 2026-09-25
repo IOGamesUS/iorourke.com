@@ -269,15 +269,13 @@
         .hero__tag:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim);
             transform: translateY(-1px); }
 
+        .hero__metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 20px 0; }
+        .hero__metric { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 12px; text-align: center; }
+        .hero__metric-num { font-family: var(--mono); font-size: 28px; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 6px; }
+        .hero__metric-label { font-size: 11px; color: var(--text-secondary); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.3; }
+        @media (max-width: 600px) { .hero__metrics { grid-template-columns: repeat(2, 1fr); } }
         .hero__summary { }
-        .hero__summary h3 { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
         .hero__summary p { font-size: 15px; color: var(--text-secondary); line-height: 1.75; }
-        .hero__achievements { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
-        .hero__achievement {
-            font-size: 14px; color: var(--text-secondary);
-            display: flex; align-items: flex-start; gap: 10px;
-        }
-        .hero__achievement::before { content: '▹'; color: var(--accent); flex-shrink: 0; font-size: 16px; }
 
         .hero__scroll-hint { display: none; }
         @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-8px)} }
@@ -835,7 +833,7 @@
                             <Counter target={20} label="Technical PRDs" />
                         </div>
                         <div className="hero-sidebar__stat">
-                            <Counter target={2} label="Patents Filed" />
+                            <Counter target={2} label="Patents Filed" suffix="" />
                         </div>
                     </div>
                 </div>
@@ -844,7 +842,7 @@
 
         // ===== HERO =====
         function Hero() {
-            const tags = ['Enterprise Data Products','API Platform','AI Delivery','Technical Discovery','Spec-Driven Development','Agile Leadership','Patent Holder'];
+            const tags = ['CS Engineering Background','Platform & API Products','AI-Assisted Delivery','Spec-Driven Development','Fintech & Ledgers','Patent Holder','Agile Leadership'];
             return (
                 <section className="hero" id="about" aria-label="About Ian O'Rourke">
                     <div className="hero__layout">
@@ -853,22 +851,33 @@
                                 <img src="pfp.JPG" alt="Ian O'Rourke" className="hero__photo" />
                                 <div>
                                     <h1 className="hero__name"><TypeWriter text="Ian O'Rourke" speed={80} /></h1>
-                                    <p className="hero__title">Technical Product Manager &bull; Enterprise Data, APIs & AI Delivery</p>
+                                    <p className="hero__title">Engineer turned PM — I speak both languages.</p>
                                     <div className="hero__open-badge"><span className="hero__open-dot"></span> Open to Opportunities</div>
                                 </div>
                             </div>
                             <div className="hero__tags">
                                 {tags.map((t, i) => <span key={i} className="hero__tag" style={{animationDelay: `${i*0.05}s`}}>{t}</span>)}
                             </div>
-                            <div className="hero__summary">
-                                <h3>Professional Summary</h3>
-                                <p>Technical product manager with 12 years in technology, an engineering background (B.S. Computer Science Engineering), and current AI delivery work. Owns platform and API products close to the code — writes engineering-ready specifications, defines the technical KPIs that govern production, and works day-to-day with engineers. Led product on a 13M+ account financial ledger and pioneered spec-driven AI development. Two patent applications from direct customer discovery.</p>
-                                <div className="hero__achievements">
-                                    <div className="hero__achievement">Led design and launch of a digital-first ledger servicing 13M+ accounts at sub-100ms latency</div>
-                                    <div className="hero__achievement">Authored 20+ technical PRDs driving 70+ platform features into production on schedule</div>
-                                    <div className="hero__achievement">Pioneered an AI-assisted pipeline turning requirements into production-ready code</div>
-                                    <div className="hero__achievement">Two patent applications from customer discovery — utility and design patents</div>
+                            <div className="hero__metrics">
+                                <div className="hero__metric">
+                                    <div className="hero__metric-num">13M+</div>
+                                    <div className="hero__metric-label">Accounts on Ledger</div>
                                 </div>
+                                <div className="hero__metric">
+                                    <div className="hero__metric-num">70+</div>
+                                    <div className="hero__metric-label">Features Shipped</div>
+                                </div>
+                                <div className="hero__metric">
+                                    <div className="hero__metric-num">20+</div>
+                                    <div className="hero__metric-label">Technical PRDs</div>
+                                </div>
+                                <div className="hero__metric">
+                                    <div className="hero__metric-num">2</div>
+                                    <div className="hero__metric-label">Patents Filed</div>
+                                </div>
+                            </div>
+                            <div className="hero__summary">
+                                <p>I started as an engineer, so I write specs that engineers actually want to build from. Now I own platform and API products — defining technical KPIs, designing system boundaries, and shipping with the team, not over the wall. I've led product on a 13M+ account financial ledger, pioneered an AI-assisted development pipeline, and filed two patents from hands-on customer discovery.</p>
                             </div>
                         </div>
                         <HeroSidebar />
@@ -894,15 +903,15 @@
                 { text: '  clear           → Clear terminal', type: 'info' },
             ],
             whoami: () => [
-                { text: '  ┌───────────────────────────────────────────┐', type: 'accent' },
-                { text: '  │  Ian O\'Rourke                              │', type: 'accent' },
-                { text: '  │  Technical Product Manager                  │', type: 'system' },
-                { text: '  │  Capital One · Card Technology              │', type: 'system' },
-                { text: '  │  12 years in tech · 5+ in product           │', type: 'system' },
-                { text: '  │  BS CS Engineering · WVU \'14               │', type: 'system' },
-                { text: '  │  2 patent applications filed                │', type: 'system' },
-                { text: '  └───────────────────────────────────────────┘', type: 'accent' },
-                { text: '  Owns platform products close to the code.', type: 'info' },
+                { text: '  Ian O\'Rourke', type: 'accent' },
+                { text: '  ──────────────────────────────', type: 'system' },
+                { text: '  Role:      Technical Product Manager', type: 'system' },
+                { text: '  Company:   Capital One · Card Technology', type: 'system' },
+                { text: '  Exp:       12 years in tech · 5+ in product', type: 'system' },
+                { text: '  Education: BS CS Engineering · WVU \'14', type: 'system' },
+                { text: '  Patents:   2 filed', type: 'system' },
+                { text: '', type: 'system' },
+                { text: '  Engineer turned PM — speaks both languages.', type: 'info' },
             ],
             'ls projects': () => [
                 { text: '  drwxr-xr-x  ian  projects/', type: 'system' },
@@ -1474,7 +1483,7 @@
         }
 
         // ===== COUNTER =====
-        function Counter({ target, label }) {
+        function Counter({ target, label, suffix = '+' }) {
             const [val, setVal] = useState(0);
             const ref = useRef(null);
             const started = useRef(false);
@@ -1501,7 +1510,7 @@
 
             return (
                 <div ref={ref}>
-                    <div className="hero-sidebar__stat-num">{val}+</div>
+                    <div className="hero-sidebar__stat-num">{val}{suffix}</div>
                     <div className="hero-sidebar__stat-label">{label}</div>
                 </div>
             );
