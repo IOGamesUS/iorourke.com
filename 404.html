@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Ian O'Rourke</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0c0c0c; color: #e4e4e4;
+            font-family: 'Inter', -apple-system, sans-serif;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; text-align: center; padding: 24px;
+        }
+        .container { max-width: 480px; }
+        .code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 96px; font-weight: 800;
+            color: #4ade80; line-height: 1; margin-bottom: 16px;
+        }
+        .message {
+            font-size: 18px; color: #999999; margin-bottom: 8px;
+        }
+        .hint {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px; color: #606060; margin-bottom: 32px;
+        }
+        .back {
+            display: inline-block; padding: 10px 24px;
+            background: #4ade80; color: #0c0c0c;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px; font-weight: 600;
+            text-decoration: none; border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .back:hover { background: #6ee7a0; }
+        .terminal {
+            margin-top: 40px; text-align: left;
+            background: #111111; border: 1px solid #222222;
+            border-radius: 8px; padding: 16px;
+            font-family: 'JetBrains Mono', monospace; font-size: 12px;
+        }
+        .terminal .prompt { color: #4ade80; }
+        .terminal .error { color: #ef4444; }
+        .terminal .info { color: #606060; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="code">404</div>
+        <p class="message">Page not found</p>
+        <p class="hint">The page you're looking for doesn't exist or has been moved.</p>
+        <a href="/" class="back">cd /home</a>
+        <div class="terminal">
+            <div><span class="prompt">visitor@iorourke:~$</span> cat /this/page</div>
+            <div class="error">cat: /this/page: No such file or directory</div>
+            <div class="info">Try: cd /home</div>
+        </div>
+    </div>
+</body>
+</html>
