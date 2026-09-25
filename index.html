@@ -12,13 +12,15 @@
     <meta property="og:url" content="https://iorourke.com/">
     <meta property="og:title" content="Ian O'Rourke — Technical Product Manager">
     <meta property="og:description" content="Technical PM with 12 years in tech. Owns enterprise data products, API platforms & AI delivery. 13M+ account ledger, 70+ features shipped, 2 patents filed.">
-    <meta property="og:image" content="https://iorourke.com/pfp.JPG">
+    <meta property="og:image" content="https://iorourke.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Ian O'Rourke — Technical Product Manager">
     <meta name="twitter:description" content="Technical PM with 12 years in tech. Enterprise data products, API platforms & AI delivery at Capital One.">
-    <meta name="twitter:image" content="https://iorourke.com/pfp.JPG">
+    <meta name="twitter:image" content="https://iorourke.com/og-image.png">
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -56,6 +58,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
@@ -177,6 +180,19 @@
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
         .hero__title { font-size: 20px; color: var(--accent); font-weight: 500; margin-bottom: 20px; }
+        .hero__open-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-family: var(--mono); font-size: 11px; font-weight: 500;
+            color: var(--accent); background: var(--accent-dim);
+            border: 1px solid rgba(74,222,128,0.15); border-radius: 20px;
+            padding: 4px 12px; margin-bottom: 16px;
+        }
+        .hero__open-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--accent);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
         .hero__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
         .hero__tag {
@@ -759,6 +775,7 @@
                                 <div>
                                     <h1 className="hero__name"><TypeWriter text="Ian O'Rourke" speed={80} /></h1>
                                     <p className="hero__title">Technical Product Manager &bull; Enterprise Data, APIs & AI Delivery</p>
+                                    <div className="hero__open-badge"><span className="hero__open-dot"></span> Open to Opportunities</div>
                                 </div>
                             </div>
                             <div className="hero__tags">
@@ -1399,5 +1416,11 @@
 
         ReactDOM.createRoot(document.getElementById('root')).render(<App />);
     </script>
+
+    <!-- Vercel Web Analytics -->
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
