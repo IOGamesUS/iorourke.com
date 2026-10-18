@@ -919,8 +919,9 @@
                 { text: '  📁 razorio.com      → AI market research & business validation', type: 'accent' },
                 { text: '  📁 hyperbreaks.com  → Star Wars card break tracking platform', type: 'accent' },
                 { text: '  📁 iorourke.com     → This site (AI-generated resume)', type: 'accent' },
+                { text: '  📁 dungeon-rummy    → Pixel-art rummy card battler (play on itch.io)', type: 'accent' },
                 { text: '', type: 'system' },
-                { text: '  3 projects, all built with AI 🤖', type: 'info' },
+                { text: '  4 projects, all built with AI 🤖', type: 'info' },
             ],
             'cat skills': () => [
                 { text: '  ═══ SKILL MATRIX ═══', type: 'accent' },
@@ -1461,6 +1462,12 @@
                     link: 'https://iorourke.com',
                 },
                 {
+                    tag: 'Game / Godot', title: 'Dungeon Rummy',
+                    desc: 'A pixel-art card battler where rummy is combat: every set and run you lay strikes the enemy with its suit\'s weapon. Built in Godot with AI-assisted development, from rules simulations to a playable browser build with a campaign, tutorial and in-game playtest feedback.',
+                    tech: ['Godot 4','GDScript','Claude AI','Game Design'],
+                    link: 'https://iogamesus.itch.io/dungeon-rummy',
+                },
+                {
                     tag: 'AI / SaaS', title: 'Razor IO',
                     desc: 'AI-powered market research tool for validating business ideas. Generates instant viability scores, competition analysis, startup cost estimates, and demand trends for entrepreneurs.',
                     tech: ['AI/ML','Market Research','SaaS','Full Stack'],
@@ -1473,7 +1480,7 @@
                     <div className="section__header">
                         <h2 className="section__title">AI Projects</h2>
                         <div className="section__line"></div>
-                        <span className="section__count">2 projects</span>
+                        <span className="section__count">3 projects</span>
                     </div>
                     <div className="projects-grid">
                         {projects.map((p, i) => <ProjectCard key={i} {...p} delay={i * 150} />)}
